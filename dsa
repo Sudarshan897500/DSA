@@ -1,0 +1,3735 @@
+Title:Consider telephone book database of N clients. Make use of a hash table implementation to quickly look up client’s telephone number.
+
+Input:
+
+class Node:
+
+    def __init__(self, value):
+
+        self.value = value
+
+        self.next = None
+
+ 
+
+class HashTable:
+
+    def __init__(self):
+
+        self.hash_table = [None] * 10
+
+ 
+
+    def hash_function(self, value):
+
+        return value % 10
+
+ 
+
+    def display(self):
+
+        for i in range(10):
+
+            temp = self.hash_table[i]
+
+            print(f"a[{i}] : ", end="")
+
+            while temp:
+
+                print(f"->{temp.value}", end="")
+
+                temp = temp.next
+
+            print()
+
+ 
+
+    def search_element(self, value):
+
+        flag = False
+
+        hash_val = self.hash_function(value)
+
+        entry = self.hash_table[hash_val]
+
+        print("\nElement found at : ", end="")
+
+        while entry:
+
+            if entry.value == value:
+
+                print(f"{hash_val} : {entry.value}")
+
+                flag = True
+
+            entry = entry.next
+
+        if not flag:
+
+            return -1
+
+ 
+
+    def delete_element(self, value):
+
+        hash_val = self.hash_function(value)
+
+        entry = self.hash_table[hash_val]
+
+ 
+
+        if not entry:
+
+            print("No Element found ")
+
+            return
+
+ 
+
+        if entry.value == value:
+
+            self.hash_table[hash_val] = entry.next
+
+            return
+
+ 
+
+        while entry.next and entry.next.value != value:
+
+            entry = entry.next
+
+ 
+
+        if not entry.next:
+
+            print("No Element found ")
+
+            return
+
+ 
+
+        entry.next = entry.next.next
+
+ 
+
+    def insert_element(self, value):
+
+        hash_val = self.hash_function(value)
+
+        node = Node(value)
+
+        temp = self.hash_table[hash_val]
+
+ 
+
+        if not temp:
+
+            self.hash_table[hash_val] = node
+
+        else:
+
+            while temp.next:
+
+                temp = temp.next
+
+            temp.next = node
+
+ 
+
+h = HashTable()
+
+while True:
+
+    print("\nTelephone : \n1.Insert \n2.Display \n3.Search \n4.Delete \n5.Exit")
+
+    choice = int(input("\nOPTION: "))
+
+    if choice == 1:
+
+        data = int(input("\nEnter phone no. to be inserted : "))
+
+        h.insert_element(data)
+
+    elif choice == 2:
+
+        h.display()
+
+    elif choice == 3:
+
+        search = int(input("\nEnter the no to be searched : "))
+
+        if h.search_element(search) == -1:
+
+            print("No element found at key")
+
+    elif choice == 4:
+
+        del_val = int(input("\nEnter the phno. to be deleted : "))
+
+        h.delete_element(del_val)
+
+        print("Phno. Deleted")
+
+    elif choice == 5:
+
+        break
+
+    else:
+
+        print("\nInvalid choice, please try again.")
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:2 (Group A)
+
+Title:Implement all the functions of a dictionary (ADT) using hashing.Data: Set of (key, value) pairs, Keys are mapped to values, Keys must be comparable, and Keys must be unique Standard Operations: Insert (key, value), Find (key), Delete (key)
+
+Input:
+
+class HashFunction:
+
+    def __init__(self):
+
+        self.h = [{'key': -1, 'name': 'NULL'} for i in range(10)]
+
+ 
+
+    def insert(self):
+
+        cnt = 0
+
+        flag = 0
+
+        while True:
+
+            if cnt >= 10:
+
+                print("\n\tHash Table is FULL")
+
+                break
+
+            k = int(input("\n\tEnter a Telephone No: "))
+
+            n = input("\n\tEnter a Client Name: ")
+
+            hi = k % 10  # hash function
+
+            if self.h[hi]['key'] == -1:
+
+                self.h[hi]['key'] = k
+
+                self.h[hi]['name'] = n
+
+            else:
+
+                if self.h[hi]['key'] % 10 != hi:
+
+                    temp = self.h[hi]['key']
+
+                    ntemp = self.h[hi]['name']
+
+                    self.h[hi]['key'] = k
+
+                    self.h[hi]['name'] = n
+
+                    for i in range(hi + 1, 10):
+
+                        if self.h[i]['key'] == -1:
+
+                            self.h[i]['key'] = temp
+
+                            self.h[i]['name'] = ntemp
+
+                            flag = 1
+
+                            break
+
+                    for i in range(hi):
+
+                        if self.h[i]['key'] == -1:
+
+                            self.h[i]['key'] = temp
+
+                            self.h[i]['name'] = ntemp
+
+                            break
+
+                else:
+
+                    for i in range(hi + 1, 10):
+
+                        if self.h[i]['key'] == -1:
+
+                            self.h[i]['key'] = k
+
+                            self.h[i]['name'] = n
+
+                            flag = 1
+
+                            break
+
+                    for i in range(hi):
+
+                        if self.h[i]['key'] == -1:
+
+                            self.h[i]['key'] = k
+
+                            self.h[i]['name'] = n
+
+                            break
+
+            flag = 0
+
+            cnt += 1
+
+            ans = input("\n\t..... Do You Want to Insert More Key: y/n")
+
+            if ans.lower() == 'n':
+
+                break
+
+ 
+
+    def display(self):
+
+        print("\n\t\tKey\t\tName")
+
+        for i in range(10):
+
+            print(f"\n\th[{i}]\t{self.h[i]['key']}\t\t{self.h[i]['name']}")
+
+ 
+
+    def find(self, k):
+
+        for i in range(10):
+
+            if self.h[i]['key'] == k:
+
+                print(f"\n\t{self.h[i]['key']} is Found at {i} Location With Name {self.h[i]['name']}")
+
+                return i
+
+        else:
+
+            return -1
+
+ 
+
+    def Delete(self, k):
+
+        index = self.find(k)
+
+        if index == -1:
+
+            print("\n\tKey Not Found")
+
+        else:
+
+            self.h[index]['key'] = -1
+
+            self.h[index]['name'] = "NULL"
+
+            print("\n\tKey is Deleted")
+
+ 
+
+if __name__ == "__main__":
+
+    obj = HashFunction()
+
+    while True:
+
+        print("\n\t***** Telephone (ADT) *****")
+
+        print("\n\t1. Insert\n\t2. Display\n\t3. Find\n\t4. Delete\n\t5. Exit")
+
+        ch = int(input("\n\t..... Enter Your Choice: "))
+
+        if ch == 1:
+
+            obj.insert()
+
+        elif ch == 2:
+
+            obj.display()
+
+        elif ch == 3:
+
+            k = int(input("\n\tEnter here:"))
+
+            if obj.find(k)==-1:
+
+                print("not found")
+
+        elif ch==4:
+
+            k=int(input("\n\tEnter here"))
+
+            obj.Delete(k)
+
+            print("Deleted")
+
+        elif choice == 5:
+
+            break
+
+        else:
+
+            print("\nInvalid choice, please try again.")
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:3 (Group B)
+
+Title:A book consists of chapters, chapters consist of sections and sections consist of subsections. Construct a tree and print the nodes. Find the time and space requirements of your method.
+
+Input:
+
+#include<iostream>
+
+#include<stdlib.h>
+
+#include<string.h>
+
+using namespace std;
+
+struct node
+
+{   char name[20];
+
+     node *next;
+
+     node *down;
+
+      int flag;
+
+};
+
+class Gll
+
+{   char ch[20];    int n,i;    
+
+     node *head=NULL,*temp=NULL,*t1=NULL,*t2=NULL;
+
+     public:
+
+     node *create();
+
+     void insertb();
+
+     void insertc();
+
+     void inserts();
+
+     void insertss();
+
+     void displayb();
+
+   
+
+};
+
+node *Gll::create()
+
+{
+
+    node *p=new(struct node);
+
+    p->next=NULL;
+
+    p->down=NULL;
+
+    p->flag=0;
+
+    cout<<"\n Enter Here:";
+
+    cin>>p->name;
+
+    return p;
+
+}
+
+void Gll::insertb()
+
+{      
+
+       
+
+         if(head==NULL)
+
+           {    t1=create();
+
+                head=t1;
+
+           }
+
+           else
+
+           {
+
+              cout<<"\n Book exist";
+
+           }  
+
+}    
+
+void Gll::insertc()
+
+{    
+
+      if(head==NULL)
+
+          {
+
+                  cout<<"\n\t There is no book";  
+
+           }
+
+           else
+
+           {    cout<<"\n\t How many chapters you want to insert?:";
+
+                cin>>n;
+
+                for(i=0;i<n;i++)
+
+                {
+
+                t1=create();
+
+                if(head->flag==0)
+
+                {  head->down=t1;   head->flag=1;    }
+
+                else
+
+                {   temp=head;
+
+                     temp=temp->down;
+
+                    while(temp->next!=NULL)
+
+                         temp=temp->next;
+
+                     temp->next=t1;
+
+                }
+
+                }
+
+          }                    
+
+}
+
+void Gll::inserts()
+
+{    
+
+ 
+
+         if(head==NULL)
+
+          {
+
+                  cout<<"\n\t There is no book";  
+
+           }
+
+           else
+
+           {    cout<<"\n Enter the name of chapter on which  you want to enter the section";
+
+                 cin>>ch;
+
+               
+
+                 temp=head;
+
+               if(temp->flag==0)
+
+               {   cout<<"\n Their are no chapters on in book";
+
+               }
+
+               else
+
+               {    temp=temp->down;
+
+                while(temp!=NULL)
+
+                 {
+
+                      if(!strcmp(ch,temp->name))
+
+                      {  
+
+                                cout<<"\n How many sections you want to enter";
+
+                                cin>>n;
+
+                                for(i=0;i<n;i++)
+
+                                {
+
+                                   
+
+                                           t1=create();
+
+                                               if(temp->flag==0)
+
+                                               {      temp->down=t1;
+
+                                                     
+
+                                                        temp->flag=1;  cout<<"\n******";
+
+                                                        t2=temp->down;
+
+                                                   
+
+                                               }
+
+                                              else
+
+                                               {          
+
+                                                              cout<<"\n#####";
+
+                                                               while(t2->next!=NULL)
+
+                                                               {     t2=t2->next;          }
+
+                                                                       t2->next=t1;                
+
+                                                 }  
+
+                                 }                              
+
+                                   break;      
+
+                       }  
+
+                               temp=temp->next;
+
+                  }
+
+                }    
+
+         }
+
+}
+
+void Gll::insertss()
+
+{    
+
+ 
+
+         if(head==NULL)
+
+          {
+
+                  cout<<"\n There is no book";  
+
+           }
+
+           else
+
+           {    cout<<"\n Enter the name of chapter on which  you want to enter the section";
+
+                 cin>>ch;
+
+               
+
+                 temp=head;
+
+               if(temp->flag==0)
+
+               {   cout<<"\n Their are no chapters on in book";
+
+               }
+
+               else
+
+               {    temp=temp->down;
+
+                while(temp!=NULL)
+
+                 {
+
+                      if(!strcmp(ch,temp->name))
+
+                      {      
+
+                         cout<<"\n Enter name of section in which you want to enter the sub section";
+
+                         cin>>ch;
+
+                       
+
+                        if(temp->flag==0)
+
+                        {   cout<<"\n Their are no sections ";   }
+
+                         else
+
+                         {       temp=temp->down;
+
+                                 while(temp!=NULL)
+
+                                 {
+
+                                     if(!strcmp(ch,temp->name))
+
+                                     {
+
+                                      cout<<"\n How many subsections you want to enter";
+
+                                        cin>>n;
+
+                    for(i=0;i<n;i++)
+
+                                   {
+
+                                   
+
+                                           t1=create();
+
+                                               if(temp->flag==0)
+
+                                               {      temp->down=t1;
+
+                                                     
+
+                                                        temp->flag=1;  cout<<"\n******";
+
+                                                        t2=temp->down;
+
+                                                   
+
+                                               }
+
+                                              else
+
+                                               {          
+
+                                                              cout<<"\n#####";
+
+                                                               while(t2->next!=NULL)
+
+                                                               {     t2=t2->next;          }
+
+                                                                       t2->next=t1;                
+
+                                                 }  
+
+                                        }                              
+
+                                         break;
+
+                                     }      temp=temp->next;
+
+                                   }
+
+                          }      
+
+                       }
+
+                         
+
+                               temp=temp->next;
+
+                  }
+
+                }    
+
+         }
+
+}
+
+void Gll::displayb()
+
+{      
+
+               
+
+                if(head==NULL)
+
+                {  cout<<"\n Book not exist";
+
+                }
+
+                else
+
+                {
+
+                 temp=head;
+
+                 
+
+                    cout<<"\n NAME OF BOOK:  "<<temp->name;
+
+                         if(temp->flag==1)
+
+                         {
+
+                         temp=temp->down;
+
+                       
+
+                           while(temp!=NULL)
+
+                           {     cout<<"\n\t\tNAME OF CHAPTER:  "<<temp->name;
+
+                                 t1=temp;
+
+                                 if(t1->flag==1)
+
+                                 {  t1=t1->down;
+
+                                    while(t1!=NULL)
+
+                                    {     cout<<"\n\t\t\t\tNAME OF SECTION:  "<<t1->name;
+
+                                          t2=t1;
+
+                                          if(t2->flag==1)
+
+                                          {  t2=t2->down;
+
+                                          while(t2!=NULL)
+
+                                          {     cout<<"\n\t\t\t\t\t\tNAME OF SUBSECTION:  "<<t2->name;    
+
+                                          t2=t2->next;
+
+                                          }
+
+                                          }    
+
+                                          t1=t1->next;
+
+                                    }
+
+                                 }  
+
+                                  temp=temp->next;
+
+                           }
+
+                       
+
+                          }
+
+                }        
+
+                     
+
+                 
+
+                 
+
+}                  
+
+int main()
+
+{    Gll g;   int x;  
+
+       while(1)
+
+      {    cout<<"\n\n Enter your choice";
+
+            cout<<"\n 1.Insert book";
+
+            cout<<"\n 2.Insert chapter";
+
+            cout<<"\n 3.Insert section";
+
+            cout<<"\n 4.Insert subsection";
+
+            cout<<"\n 5.Display book";
+
+            cout<<"\n 6.Exit";
+
+            cin>>x;
+
+           switch(x)
+
+           {   case 1:          g.insertb();
+
+                                         break;            
+
+                case 2:          g.insertc();
+
+                                         break;      
+
+                case 3:          g.inserts();
+
+                                         break;
+
+                case 4:          g.insertss();
+
+                                         break;    
+
+                case 5:          g.displayb();
+
+                                         break;      
+
+                case 6:  exit(0);
+
+           }
+
+       }
+
+       return 0;
+
+}      
+
+ 
+
+ASSIGNMENT NO:4 (Group B)
+
+Title:Beginning with an empty binary search tree, Construct binary search tree by inserting the values in the order given. After constructing a binary tree -
+
+i. Insert new node, ii. Find number of nodes in longest path from root, ii. Minimum data value found in the tree, iv. Change a tree so that the roles of the left and right pointers are swapped at every node, v. Search a value
+
+Input:
+
+#include <iostream>
+
+#include <stack>
+
+using namespace std;
+
+ 
+
+// Node class for the expression tree
+
+class Node {
+
+public:
+
+    char data;
+
+    Node* left;
+
+    Node* right;
+
+    Node(char val) : data(val), left(nullptr), right(nullptr) {}
+
+};
+
+ 
+
+// Function to create an expression tree from prefix notation
+
+Node* createExpressionTree(string prefix) {
+
+    stack<Node*> s;
+
+    int n = prefix.size();
+
+    for (int i = n - 1; i >= 0; i--) {
+
+        char ch = prefix[i];
+
+        if (isdigit(ch) || isalpha(ch)) {
+
+            Node* node = new Node(ch);
+
+            s.push(node);
+
+        }
+
+        else {
+
+            Node* node = new Node(ch);
+
+            node->left = s.top(); s.pop();
+
+            node->right = s.top(); s.pop();
+
+            s.push(node);
+
+        }
+
+    }
+
+    return s.top();
+
+}
+
+ 
+
+// Function to traverse the expression tree in post-order
+
+void postorderTraversal(Node* root) {
+
+    if (root) {
+
+        postorderTraversal(root->left);
+
+        postorderTraversal(root->right);
+
+        cout << root->data << " ";
+
+        delete root;
+
+    }
+
+}
+
+ 
+
+int main() {
+
+    string prefix = "+--a*bc/def";
+
+    Node* root = createExpressionTree(prefix);
+
+    cout << "Postorder traversal: ";
+
+    postorderTraversal(root);
+
+    cout << endl;
+
+    return 0;
+
+}
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:5 (Group B)
+
+Title:Construct an expression tree from the given prefix expression eg. +--a*bc/def and traverse it using post order traversal (non recursive) and then delete the entire tree
+
+Input:
+
+#include <iostream>
+
+#include <stack>
+
+using namespace std;
+
+// Node class for the expression tree
+
+class Node {
+
+public:
+
+char data;
+
+Node* left;
+
+Node* right;
+
+Node(char val) : data(val), left(nullptr), right(nullptr) {}
+
+};
+
+// Function to create an expression tree from prefix notation
+
+Node* createExpressionTree(string prefix) {
+
+stack<Node*> s;
+
+int n = prefix.size();
+
+for (int i = n - 1; i >= 0; i--) {
+
+char ch = prefix[i];
+
+if (isdigit(ch) || isalpha(ch)) {
+
+Node* node = new Node(ch);
+
+s.push(node);
+
+}
+
+else {
+
+Node* node = new Node(ch);
+
+node->left = s.top(); s.pop();
+
+node->right = s.top(); s.pop();
+
+s.push(node);
+
+}
+
+}
+
+return s.top();
+
+}
+
+// Function to traverse the expression tree in post-order
+
+void postorderTraversal(Node* root) {
+
+if (root) {
+
+postorderTraversal(root->left);
+
+postorderTraversal(root->right);
+
+cout << root->data << " ";
+
+delete root;
+
+}
+
+}
+
+int main() {
+
+string prefix = "+--a*bc/def";
+
+Node* root = createExpressionTree(prefix);
+
+cout << "Postorder traversal: ";
+
+postorderTraversal(root);
+
+cout << endl;
+
+return 0;
+
+}
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:6 (Group C)
+
+Title:There are flight paths between cities. If there is a flight between city A and city B then there is an edge between the cities. The cost of the edge can be the time that flight take to reach city B from A, or the amount of fuel used for the journey. Represent this as a graph. The node can be represented by airport name or name of the city. Use adjacency list representation of the graph or use adjacency matrix representation of the graph. Check whether the graph is connected or not. Justify the storage representation used
+
+Input:
+
+#include<iostream>
+
+#include<queue>
+
+using namespace std;
+
+ 
+
+int adj_mat[50][50]={0,0};
+
+int visited[50]={0};
+
+void dfs(int s,int n,string arr[])
+
+{
+
+     visited[s]=1;
+
+     cout<<arr[s]<<" ";
+
+     for(int i=0;i<n;i++)
+
+     {
+
+        if(adj_mat[s][i] && !visited[i])
+
+            dfs(i,n,arr);
+
+     }
+
+}
+
+int main()
+
+{
+
+   cout<<"enter no.of cities:";
+
+   int n,u;
+
+   cin>>n;
+
+   string cities[n];
+
+   for(int i=0;i<n;i++)
+
+   {
+
+      cout<<"enter the city#"<<i<<"(airport code):";
+
+      cin>>cities[i];
+
+   }
+
+   cout<<"\nyour cities are:"<<endl;
+
+   for(int i=0;i<n;i++)
+
+   {
+
+      cout<<"city#"<<i<<":"<<cities[i]<<endl;
+
+   }
+
+   for(int i=0;i<n;i++)
+
+   {
+
+       for(int j=i+1;j<n;j++)
+
+       {
+
+          cout<<"enter distance between"
+
+          <<cities[i]<<"and"<<cities[j]<<":";
+
+          cin>>adj_mat[i][j];
+
+          adj_mat[j][i]=adj_mat[i][j];
+
+       }
+
+   }  
+
+   cout<<endl;
+
+   for(int i=0;i<n;i++)
+
+       cout<<"\t"<<cities[i]<<"\t";
+
+   for(int i=0;i<n;i++)
+
+   {
+
+       cout<<"\n"<<cities[i];
+
+       for(int j=0;j<n;j++)
+
+            cout<<"\t"<<adj_mat[i][j]<<"\t";
+
+       cout<<endl;
+
+   }
+
+   cout<<"enter starting vertex:";
+
+   cin>>u;
+
+   cout<<"dfs:";
+
+   dfs(u,n,cities);
+
+   cout<<endl;
+
+   return 0;
+
+}
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:7 (Group C)
+
+Title:You have a business with several offices; you want to lease phone lines to connect them up with each other; and the phone company charges different amounts of money to connect different pairs of cities. You want a set of lines that connects all your offices with a minimum total cost. Solve the problem by suggesting appropriate data structures.
+
+Input:
+
+#include<iostream>
+
+#include<climits>
+
+using namespace std;
+
+template <class T>
+
+class Graph
+
+{ int ** AM,num;
+
+ T * data;
+
+public:
+
+ Graph(int n)
+
+ { AM=new int*[n];
+
+ for(int i=0;i<n;i++)
+
+ AM[i]=new int[n];
+
+ num=n;
+
+ data=new T[n];
+
+ cout<<"Enter names of all cities : ";
+
+ for(int i=0;i<n;i++)
+
+ cin>>data[i];
+
+ cout<<"Enter cost if you want to connect cities else enter 0: \n";
+
+ for(int j=0;j<n;j++)
+
+ cout<<data[j]<<" ";
+
+ cout<<endl;
+
+ for(int i=0,cost=0;i<n;i++)
+
+ { cout<<"Nodes connected to "<<data[i]<<" :\n";
+
+ for(int j=0;j<i;j++)
+
+ cout<<AM[i][j]<<"\t";
+
+ for(int j=i;j<n;j++)
+
+ if(j==i) {cout<<"0\t";AM[i][j]=AM[j][i]=0;}
+
+ else {cin>>cost;AM[i][j]=AM[j][i]=cost;}
+
+ }
+
+ for(int i=0;i<n;i++)
+
+ for(int j=0;j<n;j++)
+
+ if(AM[i][j]==0)AM[i][j]=INT_MAX;
+
+ }
+
+ void prims()
+
+ {
+
+ cout<<"\nCities that we need to connect:\n";
+
+ int *visited=new int[num](),*distance=new int[num],*from=new int[num](),cost=0;
+
+ visited[0]=1;
+
+ for(int i=0;i<num;i++)
+
+ distance[i]=AM[0][i];
+
+ int u,v;
+
+ for(int count=num-1;count>0;count--)
+
+ { int min=INT_MAX;
+
+ for(int j=1;j<num;j++)
+
+ if(visited[j]==0&&distance[j]<min)
+
+ {v=j;min=distance[j];}
+
+ u=from[v];
+
+ cout<<data[u]<<"==>"<<data[v]<<"\tcost: "<<AM[u][v]<<endl;
+
+ visited[v]=1;
+
+ for(int j=1;j<num;j++)
+
+ if(visited[j]==0&&AM[j][v]<distance[j])
+
+ {distance[j]=AM[j][v];from[j]=v;}
+
+ cost+=AM[u][v];
+
+ }
+
+ cout<<"Total cost of connecting all cities : "<<cost<<endl;
+
+ }
+
+};
+
+int main()
+
+{ int n;
+
+ cout<<"Enter number of cities: ";
+
+ cin>>n;
+
+ Graph<string> gr(n);
+
+ gr.prims();
+
+ return 0;
+
+}
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:8 (Group D)
+
+Title:Given sequence k = k1 < … < kn of n sorted keys, with a search probability pi for each key ki. Build the Binary search tree that has the least search cost given the access probability for each key?
+
+Input:
+
+#include<iostream>
+
+using namespace std;
+
+#define SIZE 10
+
+class OBST
+
+{
+
+int p[SIZE];
+
+int q[SIZE];
+
+int a[SIZE];
+
+int w[SIZE][SIZE];
+
+int c[SIZE][SIZE];
+
+int r[SIZE][SIZE];
+
+int n;
+
+public:
+
+ 
+
+void get_data()
+
+{
+
+int i;
+
+cout<<"\n Optimal Binary Search Tree \n";
+
+cout<<"\n Enter the number of nodes";
+
+cin>>n;
+
+cout<<"\n Enter the data as...\n";
+
+for(i=1;i<=n;i++)
+
+{
+
+cout<<"\n a["<<i<<"]";
+
+cin>>a[i];
+
+}
+
+for(i=1;i<=n;i++)
+
+{
+
+cout<<"\n p["<<i<<"]";
+
+cin>>p[i];
+
+}
+
+for(i=0;i<=n;i++)
+
+{
+
+cout<<"\n q["<<i<<"]";
+
+cin>>q[i];
+
+}
+
+}
+
+int Min_Value(int i,int j)
+
+{
+
+int m,k;
+
+int minimum=32000;
+
+for(m=r[i][j-1];m<=r[i+1][j];m++)
+
+{
+
+if((c[i][m-1]+c[m][j])<minimum)
+
+{
+
+minimum=c[i][m-1]+c[m][j];
+
+k=m;
+
+}
+
+}
+
+return k;
+
+}
+
+void build_OBST()
+
+{
+
+int i,j,k,l,m;
+
+for(i=0;i<n;i++)
+
+{
+
+w[i][i]=q[i];
+
+r[i][i]=c[i][i]=0;
+
+w[i][i+1]=q[i]+q[i+1]+p[i+1];
+
+r[i][i+1]=i+1;
+
+c[i][i+1]=q[i]+q[i+1]+p[i+1];
+
+}
+
+w[n][n]=q[n];
+
+r[n][n]=c[n][n]=0;
+
+for(m=2;m<=n;m++)
+
+{
+
+for(i=0;i<=n-m;i++)
+
+{
+
+j=i+m;
+
+w[i][j]=w[i][j-1]+p[j]+q[j];
+
+k=Min_Value(i,j);
+
+c[i][j]=w[i][j]+c[i][k-1]+c[k][j];
+
+r[i][j]=k;
+
+}
+
+}
+
+}
+
+void build_tree()
+
+{
+
+int i,j,k;
+
+int queue[20],front=-1,rear=-1;
+
+cout<<"The Optimal Binary Search Tree For the Given Node Is...\n";
+
+cout<<"\n The Root of this OBST is ::"<<r[0][n];
+
+cout<<"\nThe Cost of this OBST is::"<<c[0][n];
+
+cout<<"\n\n\t NODE \t LEFT CHILD \t RIGHT CHILD ";
+
+cout<<"\n";
+
+queue[++rear]=0;
+
+queue[++rear]=n;
+
+while(front!=rear)
+
+{
+
+i=queue[++front];
+
+j=queue[++front];
+
+k=r[i][j];
+
+cout<<"\n\t"<<k;
+
+if(r[i][k-1]!=0)
+
+{
+
+cout<<"\t\t"<<r[i][k-1];
+
+queue[++rear]=i;
+
+queue[++rear]=k-1;
+
+}
+
+else
+
+cout<<"\t\t";
+
+if(r[k][j]!=0)
+
+{
+
+cout<<"\t"<<r[k][j];
+
+queue[++rear]=k;
+
+queue[++rear]=j;
+
+}
+
+else
+
+cout<<"\t";
+
+}
+
+cout<<"\n";
+
+}
+
+};
+
+int main()
+
+{
+
+OBST obj;
+
+obj.get_data();
+
+obj.build_OBST();
+
+obj.build_tree();
+
+return 0;
+
+}
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:9 (Group D)
+
+Title:A Dictionary stores keywords and its meanings. Provide facility for adding new keywords, deleting keywords, updating values of any entry. Provide facility to display whole data sorted in ascending/ Descending order. Also find how many maximum comparisons may require for finding any keyword. Use Height balance tree and find the complexity for finding a keyword
+
+Input:
+
+#include<iostream>
+
+#include<string>
+
+using namespace std;
+
+class dictionary;
+
+class avlnode
+
+{
+
+string keyword;
+
+string meaning;
+
+avlnode *left,*right;
+
+int bf;
+
+public:
+
+avlnode()
+
+{
+
+keyword='\0';
+
+meaning='\0';
+
+left=right=NULL;
+
+bf=0;
+
+}
+
+avlnode(string k,string m)
+
+{
+
+keyword=k;
+
+meaning=m;
+
+left=right=NULL;
+
+bf=0;
+
+}
+
+friend class dictionary;
+
+};
+
+class dictionary
+
+{
+
+avlnode *par,*loc;
+
+public:
+
+avlnode *root;
+
+dictionary()
+
+{
+
+root=NULL;
+
+par=loc=NULL;
+
+}
+
+void accept();
+
+void insert(string key,string mean);
+
+void LLrotation(avlnode*,avlnode*);
+
+void RRrotation(avlnode*,avlnode*);
+
+void inorder(avlnode *root);
+
+void deletekey(string key);
+
+void descending(avlnode *);
+
+void search(string);
+
+void update(string,string);
+
+};
+
+void dictionary::descending(avlnode *root)
+
+{
+
+if(root)
+
+{
+
+descending(root->right);
+
+cout<<root->keyword<<" "<<root->meaning<<endl;
+
+descending(root->left);
+
+}
+
+}
+
+void dictionary::accept()
+
+{
+
+string key,mean;
+
+cout<<"Enter keyword "<<endl;
+
+cin>>key;
+
+cout<<"Enter meaning "<<endl;
+
+cin>>mean;
+
+insert(key,mean);
+
+}
+
+void dictionary::LLrotation(avlnode *a,avlnode *b)
+
+{
+
+cout<<"LL rotation"<<endl;
+
+a->left=b->right;
+
+b->right=a;
+
+a->bf=b->bf=0;
+
+}
+
+void dictionary::RRrotation(avlnode *a,avlnode *b)
+
+{
+
+cout<<"RR rotation"<<endl;
+
+a->right=b->left;
+
+b->left=a;
+
+a->bf=b->bf=0;
+
+}
+
+void dictionary::insert(string key,string mean)
+
+{
+
+//cout<<"IN Insert \n";
+
+if(!root)
+
+ 
+
+root=new avlnode(key,mean);
+
+cout<<"ROOT CREATED \n";
+
+return;
+
+}
+
+// else
+
+// {
+
+avlnode *a,*pa,*p,*pp;
+
+//a=NULL;
+
+pa=NULL;
+
+p=a=root;
+
+pp=NULL;
+
+while(p)
+
+{
+
+cout<<"In first while \n";
+
+if(p->bf)
+
+{
+
+a=p;
+
+pa=pp;
+
+}
+
+if(key<p->keyword){pp=p;p=p->left;} //takes the left branch
+
+else if(key>p->keyword){pp=p;p=p->right;} //right branch
+
+else
+
+{
+
+//p->meaning=mean;
+
+cout<<"Already exist \n";
+
+return;
+
+}
+
+}
+
+cout<<"Outside while \n";
+
+avlnode *y=new avlnode(key,mean);
+
+if(key<pp->keyword)
+
+{
+
+pp->left=y;
+
+}
+
+else
+
+pp->right=y;
+
+cout<<"KEY INSERTED \n";
+
+int d;
+
+avlnode *b,*c;
+
+//a=pp;
+
+b=c=NULL;
+
+if(key>a->keyword)
+
+{
+
+cout<<"KEY >A->KEYWORD \n";
+
+b=p=a->right;
+
+d=-1;
+
+cout<<" RIGHT HEAVY \n";
+
+}
+
+else
+
+{
+
+cout<<"KEY < A->KEYWORD \n";
+
+b=p=a->left;
+
+d=1;
+
+cout<<" LEFT HEAVY \n";
+
+}
+
+while(p!=y)
+
+{
+
+if(key>p->keyword)
+
+{
+
+p->bf=-1;
+
+p=p->right;
+
+}
+
+else
+
+{
+
+p->bf=1;
+
+p=p->left;
+
+}
+
+}
+
+cout<<" DONE ADJUSTING INTERMEDIATE NODES \n";
+
+if(!(a->bf)||!(a->bf+d))
+
+{
+
+a->bf+=d;
+
+return;
+
+}
+
+//else
+
+//{
+
+if(d==1)
+
+ 
+
+if(b->bf==1)
+
+{
+
+LLrotation(a,b);
+
+/*a->left=b->right;
+
+b->right=a;
+
+a->bf=0;
+
+b->bf=0;*/
+
+}
+
+else //if(b->bf==-1)
+
+{
+
+cout<<"LR rotation"<<endl;
+
+c=b->right;
+
+b->right=c->left;
+
+a->left=c->right;
+
+c->left=b;
+
+c->right=a;
+
+switch(c->bf)
+
+{
+
+case 1:
+
+{
+
+a->bf=-1;
+
+b->bf=0;
+
+break;
+
+}
+
+case -1:
+
+{
+
+a->bf=0;
+
+b->bf=1;
+
+break;
+
+}
+
+case 0:
+
+{
+
+a->bf=0;
+
+b->bf=0;
+
+break;
+
+}
+
+}
+
+c->bf=0;
+
+b=c; //b is new root
+
+}
+
+//else
+
+// cout<<"Balanced \n";
+
+}
+
+if(d==-1)
+
+{
+
+if(b->bf==-1)
+
+{
+
+// cout<<"RR rotation"<<endl;
+
+/*a->right=b->left;
+
+b->left=a;
+
+a->bf=b->bf=0;*/
+
+RRrotation(a,b);
+
+}
+
+else// if(b->bf==1)
+
+{
+
+c=b->left;
+
+// cout<<"RL rotation"<<endl;
+
+a->right=c->left;
+
+b->left=c->right;
+
+c->left=a;
+
+c->right=b;
+
+switch(c->bf)
+
+{
+
+case 1:
+
+{
+
+a->bf=0;
+
+b->bf=-1;
+
+break;
+
+}
+
+case -1:
+
+{
+
+a->bf=1;
+
+b->bf=0;
+
+break;
+
+}
+
+case 0:
+
+{
+
+a->bf=0;
+
+b->bf=0;
+
+break;
+
+}
+
+}
+
+c->bf=0;
+
+b=c; //b is new root
+
+}
+
+//else
+
+//cout<<"Balanced \n";
+
+}
+
+//}
+
+if(!pa)
+
+root=b;
+
+else if(a==pa->left)
+
+pa->left=b;
+
+else
+
+pa->right=b;
+
+cout<<"AVL tree created!! \n";
+
+//cout<<"AVL \n";
+
+//inorder(root);
+
+}
+
+void dictionary::search(string key)
+
+{
+
+cout<<"ENTER SEARCH \n";
+
+loc=NULL;
+
+par=NULL;
+
+if(root==NULL)
+
+{
+
+cout<<"Tree not created "<<endl;
+
+// root=key;
+
+loc=NULL;
+
+par=NULL;
+
+}
+
+//par=NULL;loc=NULL;
+
+avlnode *ptr;
+
+ptr=root;
+
+while(ptr!=NULL)
+
+{
+
+if(ptr->keyword==key)
+
+{
+
+//flag=1;
+
+loc=ptr;
+
+break; //imp for delete1 else it doesnt exit while loop
+
+}
+
+else if(key<ptr->keyword)
+
+{
+
+par=ptr;
+
+ptr=ptr->left;
+
+}
+
+else
+
+{
+
+par=ptr; //edit this in previous code
+
+ptr=ptr->right;
+
+}
+
+}
+
+if(loc==NULL)
+
+{
+
+cout<<"Not found "<<endl;
+
+}
+
+}
+
+void dictionary::update(string oldkey,string newmean)
+
+{
+
+search(oldkey);
+
+loc->meaning=newmean;
+
+cout<<"UPDATE SUCCESSFUL \n";
+
+}
+
+void dictionary::deletekey(string key)
+
+{
+
+}
+
+void dictionary::inorder(avlnode *root)
+
+{
+
+if(root)
+
+{
+
+inorder(root->left);
+
+cout<<root->keyword<<" "<<root->meaning<<endl;
+
+inorder(root->right);
+
+}
+
+}
+
+int main()
+
+{
+
+string k,m;
+
+dictionary d;
+
+int ch;
+
+string key,mean;
+
+do
+
+{
+
+cout<<"1.Insert \n2.Update \n3.Ascending \n4.Descending \n5.Display \n6.Quit \n";
+
+cin>>ch;
+
+switch(ch)
+
+{
+
+case 1:
+
+{
+
+d.accept();
+
+break;
+
+}
+
+case 2:
+
+{
+
+cout<<"Enter key whose meaning to update \n";
+
+cin>>key;
+
+cout<<"Enter new meaning\n";
+
+cin>>mean;
+
+d.update(key,mean);
+
+break;
+
+}
+
+case 3:
+
+d.inorder(d.root);
+
+break;
+
+case 4:
+
+cout<<"Descending \n";
+
+d.descending(d.root);
+
+break;
+
+case 5:
+
+d.inorder(d.root);
+
+break;
+
+default:
+
+break;
+
+}
+
+}while(ch!=6); /*cout<<"Enter word and its meaning"<<endl;
+
+cin>>k>>m;
+
+d.insert(k,m);*/
+
+// d.accept();
+
+//cout<<"Enter another word and its meaning \n";
+
+// cin>>k>>m;
+
+// d.insert(k,m);
+
+//cout<<"MAIN \n";
+
+return 0;
+
+}
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:10 (Group E)
+
+Title:Read the marks obtained by students of second year in an online examination of particular subject. Find out maximum and minimum marks obtained in that subject. Use heap data structure. Analyze the algorithm.
+
+Input:
+
+#include<iostream>
+
+using namespace std;
+
+class hp
+
+{
+
+ int heap[20],heap1[20],x,n1,i;
+
+ public:
+
+ hp()
+
+ { heap[0]=0; heap1[0]=0;
+
+ }
+
+ void getdata();
+
+ void insert1(int heap[],int);
+
+ void upadjust1(int heap[],int);
+
+ void insert2(int heap1[],int);
+
+ void upadjust2(int heap1[],int);
+
+ void minmax();
+
+};
+
+void hp::getdata()
+
+{
+
+ cout<<"\n enter the no. of students";
+
+ cin>>n1;
+
+ cout<<"\n enter the marks";
+
+ for(i=0;i<n1;i++)
+
+ { cin>>x;
+
+ insert1(heap,x);
+
+ insert2(heap1,x);
+
+ }
+
+}
+
+void hp::insert1(int heap[20],int x)
+
+{
+
+ int n;
+
+ n=heap[0];
+
+ heap[n+1]=x;
+
+ heap[0]=n+1;
+
+ upadjust1(heap,n+1);
+
+}
+
+void hp::upadjust1(int heap[20],int i)
+
+{
+
+ int temp;
+
+ while(i>1&&heap[i]>heap[i/2])
+
+ {
+
+ temp=heap[i];
+
+ heap[i]=heap[i/2];
+
+ heap[i/2]=temp;
+
+ i=i/2;
+
+ }
+
+}
+
+void hp::insert2(int heap1[20],int x)
+
+{
+
+ int n;
+
+ n=heap1[0];
+
+ heap1[n+1]=x;
+
+ heap1[0]=n+1;
+
+ 
+
+ upadjust2(heap1,n+1);
+
+}
+
+void hp::upadjust2(int heap1[20],int i)
+
+{
+
+ int temp1;
+
+ while(i>1&&heap1[i]<heap1[i/2])
+
+ {
+
+ temp1=heap1[i];
+
+ heap1[i]=heap1[i/2];
+
+ heap1[i/2]=temp1;
+
+ i=i/2;
+
+ }
+
+}
+
+void hp::minmax()
+
+{
+
+ cout<<"\n max marks"<<heap[1];
+
+ cout<<"\n min marks"<<heap1[1];
+
+ 
+
+}
+
+int main()
+
+{
+
+ hp h;
+
+ h.getdata();
+
+ h.minmax();
+
+ return 0;
+
+}
+
+ 
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:11 (Group F)
+
+Title:Department maintains a student information. The file contains roll number, name, division and address. Allow user to add, delete information of student. Display information of particular employee. If record of student does not exist an appropriate message is displayed. If it is, then the system displays the student details. Use sequential file to main the data.
+
+Input:
+
+#include<iostream>
+
+#include<fstream>
+
+#include<string.h>
+
+using namespace std;
+
+class student
+
+  {
+
+    typedef struct stud
+
+    {
+
+        int roll;
+
+        char name[10];
+
+        char div;
+
+        char add[10];
+
+    }stud;
+
+    stud rec;
+
+    public:
+
+      void create();
+
+      void display();
+
+      int search();
+
+      void Delete();
+
+  };
+
+void student::create()
+
+  {
+
+    char ans;
+
+    ofstream fout;
+
+    fout.open("stud.dat",ios::out|ios::binary);
+
+    do
+
+      {
+
+        cout<<"\n\tEnter Roll No of Student    : ";
+
+        cin>>rec.roll;
+
+        cout<<"\n\tEnter a Name of Student     : ";
+
+        cin>>rec.name;
+
+        cout<<"\n\tEnter a Division of Student : ";
+
+        cin>>rec.div;
+
+        cout<<"\n\tEnter a Address of Student  : ";
+
+        cin>>rec.add;
+
+        fout.write((char *)&rec,sizeof(stud))<<flush;
+
+        cout<<"\n\tDo You Want to Add More Records: ";
+
+        cin>>ans;
+
+      }while(ans=='y'||ans=='Y');
+
+    fout.close();
+
+  }
+
+void student::display()
+
+  {
+
+    ifstream fin;
+
+    fin.open("stud.dat",ios::in|ios::binary);
+
+    fin.seekg(0,ios::beg);
+
+    cout<<"\n\tThe Content of File are:\n";
+
+    cout<<"\n\tRoll\tName\tDiv\tAddress";
+
+    while(fin.read((char *)&rec,sizeof(stud)))
+
+      {
+
+        if(rec.roll!=-1)
+
+              cout<<"\n\t"<<rec.roll<<"\t"<<rec.name<<"\t"<<rec.div<<"\t"<<rec.add;
+
+      }
+
+    fin.close();
+
+  }
+
+int student::search()
+
+  {
+
+    int r,i=0;
+
+    ifstream fin;
+
+    fin.open("stud.dat",ios::in|ios::binary);
+
+    fin.seekg(0,ios::beg);
+
+    cout<<"\n\tEnter a Roll No: ";
+
+    cin>>r;
+
+    while(fin.read((char *)&rec,sizeof(stud)))
+
+      {
+
+        if(rec.roll==r)
+
+          {
+
+            cout<<"\n\tRecord Found...\n";
+
+            cout<<"\n\tRoll\tName\tDiv\tAddress";
+
+            cout<<"\n\t"<<rec.roll<<"\t"<<rec.name<<"\t"<<rec.div<<"\t"<<rec.add;
+
+            return i;
+
+          }
+
+        i++;
+
+      }
+
+    fin.close();
+
+    return 0;
+
+  }
+
+void student::Delete()
+
+  {
+
+    int pos;
+
+    pos=search();
+
+    fstream f;
+
+    f.open("stud.dat",ios::in|ios::out|ios::binary);
+
+    f.seekg(0,ios::beg);
+
+    if(pos==0)
+
+      {
+
+        cout<<"\n\tRecord Not Found";
+
+        return;
+
+      }
+
+    int offset=pos*sizeof(stud);
+
+    f.seekp(offset);
+
+    rec.roll=-1;
+
+    strcpy(rec.name,"NULL");
+
+    rec.div='N';
+
+    strcpy(rec.add,"NULL");
+
+    f.write((char *)&rec,sizeof(stud));
+
+    f.seekg(0);
+
+    f.close();
+
+    cout<<"\n\tRecord Deleted";
+
+  }
+
+   
+
+int main()
+
+  {
+
+    student obj;
+
+    int ch,key;
+
+    char ans;
+
+    do
+
+      {
+
+        cout<<"\n\t***** Student Information *****";
+
+        cout<<"\n\t1. Create\n\t2. Display\n\t3. Delete\n\t4. Search\n\t5. Exit";
+
+        cout<<"\n\t..... Enter Your Choice: ";
+
+        cin>>ch;
+
+        switch(ch)
+
+          {
+
+            case 1: obj.create();
+
+                break;
+
+            case 2: obj.display();
+
+                break;
+
+            case 3: obj.Delete();
+
+                break;
+
+            case 4: key=obj.search();
+
+                if(key==0)
+
+                  cout<<"\n\tRecord Not Found...\n";
+
+                break;
+
+            case 5:
+
+                break;
+
+          }
+
+        cout<<"\n\t..... Do You Want to Continue in Main Menu: ";
+
+        cin>>ans;
+
+      }while(ans=='y'||ans=='Y');
+
+return 1;
+
+  }
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ASSIGNMENT NO:12 (Group F)
+
+Title:Company maintains employee information as employee ID, name, designation and salary. Allow user to add, delete information of employee. Display information of particular employee. If employee does not exist an appropriate message is displayed. If it is, then the system displays the employee details. Use index sequential file to maintain the data.
+
+Input:
+
+#include <bits/stdc++.h>
+
+ 
+
+#define max 20
+
+using namespace std;
+
+ 
+
+// Structure of Employee
+
+struct employee {
+
+    string name;
+
+    long int code;
+
+    string designation;
+
+    int exp;
+
+    int age;
+
+};
+
+ 
+
+int num;
+
+void showMenu();
+
+ 
+
+// Array of Employees to store the
+
+// data in the form of the Structure
+
+// of the Array
+
+employee emp[max], tempemp[max],
+
+    sortemp[max], sortemp1[max];
+
+ 
+
+// Function to build the given datatype
+
+void build()
+
+{
+
+    cout << "Build The Table\n";
+
+    cout << "Maximum Entries can be "
+
+         << max << "\n";
+
+ 
+
+    cout << "Enter the number of "
+
+         << "Entries required";
+
+    cin >> num;
+
+ 
+
+    if (num > 20) {
+
+        cout << "Maximum number of "
+
+             << "Entries are 20\n";
+
+        num = 20;
+
+    }
+
+    cout << "Enter the following data:\n";
+
+ 
+
+    for (int i = 0; i < num; i++) {
+
+        cout << "Name ";
+
+        cin >> emp[i].name;
+
+ 
+
+        cout << "Employee ID ";
+
+        cin >> emp[i].code;
+
+ 
+
+        cout << "Designation ";
+
+        cin >> emp[i].designation;
+
+ 
+
+        cout << "Experience ";
+
+        cin >> emp[i].exp;
+
+ 
+
+        cout << "Age ";
+
+        cin >> emp[i].age;
+
+    }
+
+ 
+
+    showMenu();
+
+}
+
+ 
+
+// Function to insert the data into
+
+// given data type
+
+void insert()
+
+{
+
+    if (num < max) {
+
+        int i = num;
+
+        num++;
+
+ 
+
+        cout << "Enter the information "
+
+             << "of the Employee\n";
+
+        cout << "Name ";
+
+        cin >> emp[i].name;
+
+ 
+
+        cout << "Employee ID ";
+
+        cin >> emp[i].code;
+
+ 
+
+        cout << "Designation ";
+
+        cin >> emp[i].designation;
+
+ 
+
+        cout << "Experience ";
+
+        cin >> emp[i].exp;
+
+ 
+
+        cout << "Age ";
+
+        cin >> emp[i].age;
+
+    }
+
+    else {
+
+        cout << "Employee Table Full\n";
+
+    }
+
+ 
+
+    showMenu();
+
+}
+
+ 
+
+// Function to delete record at index i
+
+void deleteIndex(int i)
+
+{
+
+    for (int j = i; j < num - 1; j++) {
+
+        emp[j].name = emp[j + 1].name;
+
+        emp[j].code = emp[j + 1].code;
+
+        emp[j].designation
+
+            = emp[j + 1].designation;
+
+        emp[j].exp = emp[j + 1].exp;
+
+        emp[j].age = emp[j + 1].age;
+
+    }
+
+    return;
+
+}
+
+ 
+
+// Function to delete record
+
+void deleteRecord()
+
+{
+
+    cout << "Enter the Employee ID "
+
+         << "to Delete Record";
+
+ 
+
+    int code;
+
+ 
+
+    cin >> code;
+
+    for (int i = 0; i < num; i++) {
+
+        if (emp[i].code == code) {
+
+            deleteIndex(i);
+
+            num--;
+
+            break;
+
+        }
+
+    }
+
+    showMenu();
+
+}
+
+ 
+
+void searchRecord()
+
+{
+
+    cout << "Enter the Employee"
+
+         << " ID to Search Record";
+
+ 
+
+    int code;
+
+    cin >> code;
+
+ 
+
+    for (int i = 0; i < num; i++) {
+
+ 
+
+        // If the data is found
+
+        if (emp[i].code == code) {
+
+            cout << "Name "
+
+                 << emp[i].name << "\n";
+
+ 
+
+            cout << "Employee ID "
+
+                 << emp[i].code << "\n";
+
+ 
+
+            cout << "Designation "
+
+                 << emp[i].designation << "\n";
+
+ 
+
+            cout << "Experience "
+
+                 << emp[i].exp << "\n";
+
+ 
+
+            cout << "Age "
+
+                 << emp[i].age << "\n";
+
+            break;
+
+        }
+
+    }
+
+ 
+
+    showMenu();
+
+}
+
+ 
+
+// Function to show menu
+
+void showMenu()
+
+{
+
+ 
+
+    cout << "-------------------------"
+
+         << "Employee"
+
+         << " Management System"
+
+         << "-------------------------\n\n";
+
+ 
+
+    cout << "Available Options:\n\n";
+
+    cout << "Build Table         (1)\n";
+
+    cout << "Insert New Entry    (2)\n";
+
+    cout << "Delete Entry        (3)\n";
+
+    cout << "Search a Record     (4)\n";
+
+    cout << "Exit                (5)\n";
+
+ 
+
+    int option;
+
+ 
+
+    // Input Options
+
+    cin >> option;
+
+ 
+
+    // Call function on the bases of the
+
+    // above option
+
+    if (option == 1) {
+
+        build();
+
+    }
+
+    else if (option == 2) {
+
+        insert();
+
+    }
+
+    else if (option == 3) {
+
+        deleteRecord();
+
+    }
+
+    else if (option == 4) {
+
+        searchRecord();
+
+    }
+
+    else if (option == 5) {
+
+        return;
+
+    }
+
+    else {
+
+        cout << "Expected Options"
+
+             << " are 1/2/3/4/5";
+
+        showMenu();
+
+    }
+
+}
+
+ 
+
+// Driver Code
+
+int main()
+
+{
+
+ 
+
+    showMenu();
+
+    return 0;
+
+}
+
+ 
